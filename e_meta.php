@@ -6,7 +6,7 @@
  * Released under the terms and conditions of the
  * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
  *
- * [ RECAPTCHA PLUGIN FOR 0.7.25+ version] [ © JIMAKO FROM e107.sk] 
+ * [ RECAPTCHA PLUGIN FOR 0.7.25+ version] [ © JIMAKO FROM e107sk.com] 
  *
  * 
  */
