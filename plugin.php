@@ -3,7 +3,7 @@
 //PLUGIN INFO------------------------------------------------------------------------------------------------+
 
   $eplug_name        = "NoCaptcha ReCaptcha";
-  $eplug_version     = "0.7.5";
+  $eplug_version     = "0.8.0";
   $eplug_author      = "Jimako";
   $eplug_url         = "https://www.e107sk.com/";
   $eplug_email       = "use_forum";

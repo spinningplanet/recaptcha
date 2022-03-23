@@ -22,7 +22,7 @@ if (!isset($pref['plug_installed']['recaptcha']))
 $recaptchaActive  = $pref['recaptcha_active'];
 $signup_imagecode = $pref['signcode'];
 $use_imagecode 		= $pref['logcode'];
-
+ 
 if($recaptchaActive)
 {
  
@@ -41,8 +41,10 @@ if($recaptchaActive)
     (e_PAGE=="admin.php" && $use_imagecode && !ADMIN)
 	)
 	{		 
- 	  
-	 require_once e_PLUGIN.'recaptcha/inc/recaptchalib.php'; 
+ 	
+     require_once e_PLUGIN.'recaptcha/inc/autoload.php'; 
+  
+	 //require_once e_PLUGIN.'recaptcha/inc/recaptchalib.php'; 
 
      // your secret key
  
@@ -51,23 +53,30 @@ if($recaptchaActive)
 			$response = null;
 			 
 			// check secret key
-			$reCaptcha = new ReCaptcha($secret);
+			//$reCaptcha = new ReCaptcha($secret);
+            $recaptcha = new \ReCaptcha\ReCaptcha($secret);
 	
 			// if submitted check response
+
 			if ($_POST["g-recaptcha-response"]) {
-			    $response = $reCaptcha->verifyResponse(
+                $response = $recaptcha->setExpectedHostname($_SERVER["SERVER_NAME"])
+                  ->verify($_POST["g-recaptcha-response"], $_SERVER["SERVER_NAME"]);
+                  
+			/*    $response = $reCaptcha->verifyResponse(
 			        $_SERVER["REMOTE_ADDR"],
 			        $_POST["g-recaptcha-response"]
-			    );
+			    ); */
 			}
- 	
-	   if ($response != null && $response->success) {
+ 
+ 
+	   if ($response->isSuccess()) {
 	      $del_time = time()+1300; //original 1200
-        $code = substr($_POST["g-recaptcha-response"],0,19);
-        // fix for 1.0.4
-        $code = preg_replace("/[^0-9\.]/", "", $code);
+          $code = substr($_POST["g-recaptcha-response"],0,19);
+          
+          // fix for 1.0.4
+          $code = preg_replace("/[^0-9\.]/", "", $code);
 	      $sql->db_Insert("tmp", "'{$code}',{$del_time},'{$code}'");  
-	      
+ 
 	      $_POST['rand_num']= $code;
 	      $_POST['code_verify']= $code;
 	      $_POST['codeverify']= $code;
